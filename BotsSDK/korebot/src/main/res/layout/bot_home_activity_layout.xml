@@ -28,7 +28,7 @@
         android:padding="@dimen/dimen_7dp"
         android:visibility="gone">
 
-        <EditText
+        <kore.botssdk.views.CustomEditTextView
             android:id="@+id/etIdentity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

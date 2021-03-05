@@ -3,6 +3,7 @@ package kore.botssdk.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import kore.botssdk.net.RestBuilder;
 import kore.botssdk.net.RestResponse;
 import kore.botssdk.net.SDKConfiguration;
 import kore.botssdk.utils.BundleUtils;
+import kore.botssdk.utils.KaFontUtils;
 import kore.botssdk.utils.StringUtils;
 import kore.botssdk.websocket.SocketWrapper;
 import retrofit2.Call;
@@ -44,6 +46,7 @@ public class BotHomeActivity extends BotAppCompactActivity {
     private Button launchBotBtn;
     private EditText etIdentity;
     private TokenResponseModel tokenResponseModel;
+    private Typeface regular;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +61,10 @@ public class BotHomeActivity extends BotAppCompactActivity {
 
     private void findViews() {
 
+        regular = KaFontUtils.getCustomTypeface("bold",BotHomeActivity.this);
         launchBotBtn = (Button) findViewById(R.id.launchBotBtn);
         etIdentity = (EditText) findViewById(R.id.etIdentity);
+        launchBotBtn.setTypeface(regular);
         launchBotBtn.setText(getResources().getString(R.string.connect));
         etIdentity.setText(SDKConfiguration.Client.identity);
         if(etIdentity.getText().toString() != null && etIdentity.getText().toString().length() > 0)

@@ -123,52 +123,52 @@ public class KaFontUtils {
         switch (tag) {
             case ROBOTO_LIGHT:
                 if (robotoLight == null) {
-                    robotoLight = ResourcesCompat.getFont(context,R.font.latolight);
+                    robotoLight = ResourcesCompat.getFont(context,R.font.gilroylight);
                 }
                 return robotoLight;
             case ROBOTO_LIGHT_ITALICS:
                 if (robotoLightItalic == null) {
-                    robotoLightItalic = ResourcesCompat.getFont(context,R.font.latolightitalic);
+                    robotoLightItalic = ResourcesCompat.getFont(context,R.font.gilroylightitalic);
                 }
                 return robotoLightItalic;
             case ROBOTO_REGULAR:
                 if (robotoRegular == null) {
-                    robotoRegular = ResourcesCompat.getFont(context,R.font.latoregular);
+                    robotoRegular = ResourcesCompat.getFont(context,R.font.gilroyregular);
                 }
                 return robotoRegular;
             case ROBOTO_REGULAR_ITALICS:
                 if (robotoRegularItalic == null) {
-                    robotoRegularItalic = ResourcesCompat.getFont(context,R.font.latoitalic);
+                    robotoRegularItalic = ResourcesCompat.getFont(context,R.font.gilroyregularitalic);
                 }
                 return robotoRegularItalic;
             case ROBOTO_MEDIUM:
                 if (robotoMedium == null) {
-                    robotoMedium = ResourcesCompat.getFont(context,R.font.latomedium);
+                    robotoMedium = ResourcesCompat.getFont(context,R.font.gilroymedium);
                 }
                 return robotoMedium;
             case ROBOTO_MEDIUM_ITALICS:
                 if (robotoMediumItalic == null) {
-                    robotoMediumItalic = ResourcesCompat.getFont(context,R.font.latomediumitalic);
+                    robotoMediumItalic = ResourcesCompat.getFont(context,R.font.gilroymediumitalic);
                 }
                 return robotoMediumItalic;
             case ROBOTO_BOLD:
                 if (robotoBold == null) {
-                    robotoBold = ResourcesCompat.getFont(context,R.font.latobold);
+                    robotoBold = ResourcesCompat.getFont(context,R.font.gilroybold);
                 }
                 return robotoBold;
             case ROBOTO_BOLD_ITALICS:
                 if (robotoBoldItalic == null) {
-                    robotoBoldItalic = ResourcesCompat.getFont(context,R.font.latobolditalic);
+                    robotoBoldItalic = ResourcesCompat.getFont(context,R.font.gilroybolditalic);
                 }
                 return robotoBoldItalic;
             case ROBOTO_EXTRA_BOLD:
                 if (robotoExtraBold == null) {
-                    robotoExtraBold = ResourcesCompat.getFont(context,R.font.latobold);
+                    robotoExtraBold = ResourcesCompat.getFont(context,R.font.gilroybold);
                 }
                 return robotoExtraBold;
             default:
                 if (robotoRegular == null) {
-                    robotoRegular = ResourcesCompat.getFont(context,R.font.latoregular);
+                    robotoRegular = ResourcesCompat.getFont(context,R.font.gilroyregular);
                 }
                 return robotoRegular;
         }

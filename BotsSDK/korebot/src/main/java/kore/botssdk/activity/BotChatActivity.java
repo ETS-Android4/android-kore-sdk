@@ -86,6 +86,7 @@ import kore.botssdk.models.KoreMedia;
 import kore.botssdk.models.PayloadInner;
 import kore.botssdk.models.PayloadOuter;
 import kore.botssdk.models.limits.Attachment;
+import kore.botssdk.net.BrandingRestBuilder;
 import kore.botssdk.net.RestBuilder;
 import kore.botssdk.net.SDKConfiguration;
 import kore.botssdk.utils.BitmapUtils;
@@ -548,12 +549,16 @@ public class BotChatActivity extends BotAppCompactActivity implements ComposeFoo
                 ComponentModel compModel = botResponse.getMessage().get(0).getComponent();
                 if (compModel != null) {
                     payOuter = compModel.getPayload();
+
                     if (payOuter != null) {
                         /*if (payOuter.getText() != null && payOuter.getText().contains("&quot")) {
                             payOuter.setText(payOuter.getText().replace("&quot;", "\""));
                             payOuter = gson.fromJson(payOuter.getText().replace("&quot;", "\""), PayloadOuter.class);
                             // payOuter = gson.fromJson(payOuter.getText().replace("&quot;", "\""), PayloadOuter.class);
                         }*/
+
+                        if(payOuter.getText()!= null && payOuter.getText().equalsIgnoreCase("Login Form is successfully submitted."))
+                            payOuter.setText("Thank you!");
 
                         if (payOuter.getText() != null && payOuter.getText().contains("&quot")) {
                             Gson gson = new Gson();
@@ -1050,7 +1055,7 @@ public class BotChatActivity extends BotAppCompactActivity implements ComposeFoo
     }
 
     private void getBrandingDetails() {
-        Call<ArrayList<BrandingNewModel>> getBankingConfigService = RestBuilder.getRestAPI().getBrandingNewDetails("bearer " + SocketWrapper.getInstance(BotChatActivity.this).getAccessToken(), SDKConfiguration.Client.tenant_id, "published", "1","en_US", SDKConfiguration.Client.bot_id);
+        Call<ArrayList<BrandingNewModel>> getBankingConfigService = BrandingRestBuilder.getRestAPI().getBrandingNewDetails("bearer " + SocketWrapper.getInstance(BotChatActivity.this).getAccessToken(), SDKConfiguration.Client.tenant_id, "published", "1","en_US", SDKConfiguration.Client.bot_id);
         getBankingConfigService.enqueue(new Callback<ArrayList<BrandingNewModel>>() {
             @Override
             public void onResponse(Call<ArrayList<BrandingNewModel>> call, Response<ArrayList<BrandingNewModel>> response) {

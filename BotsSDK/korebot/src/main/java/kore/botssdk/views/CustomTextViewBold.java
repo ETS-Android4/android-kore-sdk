@@ -28,7 +28,7 @@ public class CustomTextViewBold extends AppCompatTextView {
     private void style(Context context, AttributeSet attrs) {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ActionBar);
-        Typeface tfRegular = ResourcesCompat.getFont(context, R.font.latobold);
+        Typeface tfRegular = ResourcesCompat.getFont(context, R.font.gilroybold);
         setTypeface(tfRegular);
         a.recycle();
     }

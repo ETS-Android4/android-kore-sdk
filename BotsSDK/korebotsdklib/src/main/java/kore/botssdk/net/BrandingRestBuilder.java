@@ -13,7 +13,6 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
-import kore.botssdk.net.SDKConfiguration.Server;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -22,44 +21,18 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RestBuilder {
+public class BrandingRestBuilder {
 
     private static RestAPI restAPI;
 
-    private RestBuilder(){}
+    private BrandingRestBuilder(){}
 
 
     public static RestAPI getRestAPI(){
         if(restAPI == null) {
             restAPI = new Retrofit.Builder()
-                    .baseUrl(Server.KORE_BOT_SERVER_URL)
-                    .addConverterFactory(new NullOnEmptyConverterFactory())
-                    .addConverterFactory(createConverter())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(getClient())
-                    .build().create(RestAPI.class);
-        }
-        return restAPI;
-    }
-
-    public static RestAPI getTokenRestAPI(){
-        if(restAPI == null) {
-            restAPI = new Retrofit.Builder()
-                    .baseUrl(Server.TOKEN_SERVER_URL)
-                    .addConverterFactory(new NullOnEmptyConverterFactory())
-                    .addConverterFactory(createConverter())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(getClient())
-                    .build().create(RestAPI.class);
-        }
-        return restAPI;
-    }
-
-    public static RestAPI getBrandingRestAPI(){
-        if(restAPI == null) {
-            restAPI = new Retrofit.Builder()
-                    .baseUrl("https://wb.korebots.com/workbench/")
-                    .addConverterFactory(new NullOnEmptyConverterFactory())
+                    .baseUrl(SDKConfiguration.Server.Branding_SERVER_URL)
+                    .addConverterFactory(new RestBuilder.NullOnEmptyConverterFactory())
                     .addConverterFactory(createConverter())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(getClient())
@@ -88,7 +61,7 @@ public class RestBuilder {
 
     private static GsonConverterFactory createConverter() {
         final GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(boolean.class, new BooleanDeserializer());
+        gsonBuilder.registerTypeAdapter(boolean.class, new RestBuilder.BooleanDeserializer());
         gsonBuilder.excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT);
         final Gson gson = gsonBuilder.create();
         return GsonConverterFactory.create(gson);

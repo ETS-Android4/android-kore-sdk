@@ -29,7 +29,7 @@ public class CustomTextView extends AppCompatTextView {
     private void style(Context context, AttributeSet attrs) {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ActionBar);
-        Typeface tfRegular = ResourcesCompat.getFont(context, R.font.latomedium);
+        Typeface tfRegular = ResourcesCompat.getFont(context, R.font.gilroyregular);
         setTypeface(tfRegular);
         a.recycle();
     }
