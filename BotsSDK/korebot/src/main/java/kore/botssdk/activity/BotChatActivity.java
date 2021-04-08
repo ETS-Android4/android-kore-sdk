@@ -750,6 +750,9 @@ public class BotChatActivity extends BotAppCompactActivity implements ComposeFoo
                         else if (BotResponse.TEMPLATE_TYPE_LIST.equalsIgnoreCase(payInner.getTemplate_type())) {
                             botResponseTextualFormat = payInner.getText();
                         }
+                        else if(BotResponse.TEMPLATE_TYPE_WELCOME_QUICK_REPLIES.equalsIgnoreCase(payInner.getTemplate_type())){
+                        botResponseTextualFormat = payInner.getText();
+                    }
                     }
                 }
             if (BotSocketConnectionManager.getInstance().isTTSEnabled()) {

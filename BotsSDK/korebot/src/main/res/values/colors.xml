@@ -89,7 +89,7 @@
     <!-- Offline mode check -->
     <color name="offline_mode_check_bg_color">#CC96A5A9</color>
     <color name="offline_mode_check_text_color">#FFFFFF</color>
-    <color name="compose_chase_color">#eaeaea</color>
+    <color name="compose_chase_color">#F8F9FC</color>
     <color name="bot_option_text_color">#01CDEF</color>
     <color name="connectBotBackground">#F7F7F7</color>
     <color name="footerdivider_color">#CACACA</color>

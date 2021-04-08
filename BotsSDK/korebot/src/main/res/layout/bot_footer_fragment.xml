@@ -102,7 +102,7 @@
                         android:paddingRight="5dp"
                         android:paddingBottom="10dp"
                         android:src="@drawable/widget_menu"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/loadingTasks"
@@ -157,7 +157,6 @@
                     android:layout_toLeftOf="@+id/btnsend1"
                     android:layout_toEndOf="@id/tasksRl"
                     android:layout_toRightOf="@id/tasksRl"
-                    android:background="@drawable/theme1_compose_bg"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -200,29 +199,30 @@
 
                     <kore.botssdk.views.CustomTextViewBold
                         android:id="@+id/sendTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/dimen_3dp"
+                        android:layout_width="@dimen/dimen_25dp"
+                        android:layout_height="@dimen/dimen_25dp"
+                        android:layout_marginRight="@dimen/dimen_15dp"
                         android:gravity="center_vertical"
                         android:paddingStart="5dp"
                         android:paddingLeft="5dp"
+                        android:layout_gravity="center_vertical"
                         android:paddingEnd="5dp"
                         android:paddingRight="5dp"
                         android:tag="bold"
-                        android:text="@string/send"
+                        android:background="@drawable/ic_mashreq_chat_send"
                         android:textColor="@color/bgBlueSignup"
                         android:textSize="14dp"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <ImageView
                         android:id="@+id/rec_audio_img"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/dimen_35dp"
+                        android:layout_height="@dimen/dimen_35dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="@dimen/dimen_3dp"
+                        android:layout_marginRight="@dimen/dimen_15dp"
                         android:alpha="0.70"
                         android:padding="5dp"
-                        android:src="@drawable/ic_mic"
+                        android:src="@drawable/ic_speaker_mashreq"
                         android:visibility="visible" />
 
                     <ImageView
@@ -243,7 +243,7 @@
                         android:alpha="0.70"
                         android:padding="5dp"
                         android:src="@drawable/ic_volume_up_black_24dp"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

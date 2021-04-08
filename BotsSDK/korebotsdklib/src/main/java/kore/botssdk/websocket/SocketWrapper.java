@@ -1,10 +1,8 @@
 package kore.botssdk.websocket;
 
 import android.content.Context;
-import android.net.Network;
 import android.os.Handler;
 import android.util.Log;
-
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -18,11 +16,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import kore.botssdk.event.KoreEventCenter;
 import kore.botssdk.event.RTMConnectionEvent;
@@ -33,17 +26,12 @@ import kore.botssdk.io.crossbar.autobahn.websocket.interfaces.IWebSocket;
 import kore.botssdk.io.crossbar.autobahn.websocket.types.WebSocketOptions;
 import kore.botssdk.models.BotInfoModel;
 import kore.botssdk.models.BotSocketOptions;
-import kore.botssdk.net.RestBuilder;
-import kore.botssdk.net.RestResponse;
+import kore.botssdk.net.BotRestBuilder;
+import kore.botssdk.net.JwtRestBuilder;
 import kore.botssdk.net.RestResponse.BotAuthorization;
 import kore.botssdk.net.RestResponse.JWTTokenResponse;
 import kore.botssdk.net.RestResponse.RTMUrl;
-import kore.botssdk.net.BotRestBuilder;
-import kore.botssdk.net.RestAPI;
-import kore.botssdk.net.RestResponse;
-import kore.botssdk.net.SDKConfiguration;
 import kore.botssdk.utils.Constants;
-import kore.botssdk.utils.Utils;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -52,7 +40,7 @@ import retrofit2.Response;
  * Created by Ramachandra Pradeep on 6/1/2016.
  * Copyright (c) 2014 Kore Inc. All rights reserved.
  */
-public final class SocketWrapper{
+public final class SocketWrapper {
 
     private final String LOG_TAG = "SocketWrapper";//
 
@@ -84,6 +72,7 @@ public final class SocketWrapper{
 
     private String anonymousUserAccessToken = null;
     private String JWTToken;
+    private String xauth;
     private String auth;
     private String botUserId;
 
@@ -149,15 +138,15 @@ public final class SocketWrapper{
     }
 
 //    final RestAPI restAPI = BotRestBuilder.getBotRestService();
-    private Observable<RestResponse.RTMUrl> getRtmUrl(String accessToken,final BotInfoModel botInfoModel){
+    private Observable<RTMUrl> getRtmUrl(String accessToken, final BotInfoModel botInfoModel){
 
-        return Observable.create(new ObservableOnSubscribe<RestResponse.RTMUrl>() {
+        return Observable.create(new ObservableOnSubscribe<RTMUrl>() {
             @Override
-            public void subscribe(ObservableEmitter<RestResponse.RTMUrl> observableEmitter) throws Exception {
+            public void subscribe(ObservableEmitter<RTMUrl> observableEmitter) throws Exception {
                 try {
 
-                    Call<RestResponse.JWTTokenResponse> jwtTokenResponseCall = BotRestBuilder.getBotRestService().getJWTToken("bearer " + accessToken);
-                    Response<RestResponse.JWTTokenResponse> jwtTokenResponseResponse = jwtTokenResponseCall.execute();
+                    Call<JWTTokenResponse> jwtTokenResponseCall = BotRestBuilder.getBotRestService().getJWTToken("bearer " + accessToken);
+                    Response<JWTTokenResponse> jwtTokenResponseResponse = jwtTokenResponseCall.execute();
 
                     HashMap<String, Object> hsh = new HashMap<>();
                     hsh.put(Constants.KEY_ASSERTION, jwtTokenResponseResponse.body().getJwt());
@@ -165,14 +154,14 @@ public final class SocketWrapper{
 
 
 
-                    Call<RestResponse.BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
-                    Response<RestResponse.BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
+                    Call<BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
+                    Response<BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
 
                     auth = botAuthorizationResponse.body().getAuthorization().getAccessToken();
                     botUserId = botAuthorizationResponse.body().getUserInfo().getUserId();
 
-                    Call<RestResponse.RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), optParameterBotInfo);
-                    Response<RestResponse.RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
+                    Call<RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), optParameterBotInfo);
+                    Response<RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
 
                     observableEmitter.onNext(rtmUrlResponse.body());
                     observableEmitter.onComplete();
@@ -181,40 +170,21 @@ public final class SocketWrapper{
                 }
             }
         });
-
-        /*return BotRestBuilder.getBotRestService().getJWTToken("bearer " + accessToken).flatMap(new Function<RestResponse.JWTTokenResponse,
-                ObservableSource<RestResponse.BotAuthorization>>() {
-            @Override
-            public ObservableSource<RestResponse.BotAuthorization> apply(RestResponse.JWTTokenResponse jwtTokenResponse) throws Exception {
-                HashMap<String, Object> hsh = new HashMap<>();
-                hsh.put(Constants.KEY_ASSERTION, jwtTokenResponse.getJwt());
-                hsh.put(Constants.BOT_INFO, botInfoModel);
-                return BotRestBuilder.getBotRestService().jwtGrant(hsh);
-            }
-        }).flatMap(new Function<RestResponse.BotAuthorization, ObservableSource<RestResponse.RTMUrl>>() {
-            @Override
-            public ObservableSource<RestResponse.RTMUrl> apply(RestResponse.BotAuthorization botAuthorization) throws Exception {
-                auth = botAuthorization.getAuthorization().getAccessToken();
-                botUserId = botAuthorization.getUserInfo().getUserId();
-                return BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorization.getAuthorization().getAccessToken(), optParameterBotInfo);
-            }
-        });*/
-
     }
 
     //TODO For speed connection
-    private Observable<RestResponse.RTMUrl> getRtmUrlForConnectAnonymous(final String sJwtGrant, final BotInfoModel botInfoModel){
+    private Observable<RTMUrl> getRtmUrlForConnectAnonymous(final String sJwtGrant, final BotInfoModel botInfoModel){
 
-        return Observable.create(new ObservableOnSubscribe<RestResponse.RTMUrl>() {
+        return Observable.create(new ObservableOnSubscribe<RTMUrl>() {
             @Override
-            public void subscribe(ObservableEmitter<RestResponse.RTMUrl> observableEmitter) throws Exception {
+            public void subscribe(ObservableEmitter<RTMUrl> observableEmitter) throws Exception {
                 try {
                     HashMap<String, Object> hsh = new HashMap<>();
                     hsh.put(Constants.KEY_ASSERTION, sJwtGrant);
                     hsh.put(Constants.BOT_INFO, botInfoModel);
 
-                    Call<RestResponse.BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
-                    Response<RestResponse.BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
+                    Call<BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
+                    Response<BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
 
                     HashMap<String, Object> hsh1 = new HashMap<>();
                     hsh1.put(Constants.BOT_INFO, botInfoModel);
@@ -222,8 +192,41 @@ public final class SocketWrapper{
                     botUserId = botAuthorizationResponse.body().getUserInfo().getUserId();
                     auth = botAuthorizationResponse.body().getAuthorization().getAccessToken();
 
-                    Call<RestResponse.RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), hsh1);
-                    Response<RestResponse.RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
+                    Call<RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), hsh1);
+                    Response<RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
+
+                    observableEmitter.onNext(rtmUrlResponse.body());
+                    observableEmitter.onComplete();
+                } catch (Exception e) {
+                    observableEmitter.onError(e);
+                }
+            }
+        });
+    }
+
+    //TODO For speed connection
+    public Observable<RTMUrl> getRtmUrlForConnectAnonymous(final String sJwtGrant, final String xauth, final BotInfoModel botInfoModel){
+
+        return Observable.create(new ObservableOnSubscribe<RTMUrl>() {
+            @Override
+            public void subscribe(ObservableEmitter<RTMUrl> observableEmitter) throws Exception {
+                try {
+                    HashMap<String, Object> hsh = new HashMap<>();
+//                    hsh.put(Constants.AUTHORIZATION, sJwtGrant);
+//                    hsh.put(Constants.XAUTH, xauth);
+                    hsh.put(Constants.SESSION_ID, "111111111");
+
+                    Call<BotAuthorization> botAuthorizationCall = JwtRestBuilder.getBotRestService().jwtGrant(hsh);
+                    Response<BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
+
+                    HashMap<String, Object> hsh1 = new HashMap<>();
+                    hsh1.put(Constants.BOT_INFO, botInfoModel);
+
+                    botUserId = botAuthorizationResponse.body().getUserInfo().getUserId();
+                    auth = botAuthorizationResponse.body().getAuthorization().getAccessToken();
+
+                    Call<RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), hsh1);
+                    Response<RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
 
                     observableEmitter.onNext(rtmUrlResponse.body());
                     observableEmitter.onComplete();
@@ -253,7 +256,7 @@ public final class SocketWrapper{
      *
      * @param accessToken   : AccessToken of the loged user.
      */
-    public void connect(String accessToken,final BotInfoModel botInfoModel,SocketConnectionListener socketConnectionListener) {
+    public void connect(String accessToken, final BotInfoModel botInfoModel, SocketConnectionListener socketConnectionListener) {
         this.botInfoModel = botInfoModel;
         this.socketConnectionListener = socketConnectionListener;
         this.accessToken = accessToken;
@@ -267,12 +270,12 @@ public final class SocketWrapper{
 
         getRtmUrl(accessToken,botInfoModel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RestResponse.RTMUrl>() {
+                .subscribe(new Observer<RTMUrl>() {
                     @Override
                     public void onSubscribe(Disposable disposable) {}
 
                     @Override
-                    public void onNext(RestResponse.RTMUrl rtmUrl) {try {
+                    public void onNext(RTMUrl rtmUrl) {try {
                             connectToSocket(rtmUrl.getUrl(), false);
                         } catch (URISyntaxException e) {
                             e.printStackTrace();
@@ -318,20 +321,64 @@ public final class SocketWrapper{
         this.JWTToken = sJwtGrant;
         this.botInfoModel = botInfoModel;
         this.options = options;
-        //If spiceManager is not started then start it
-        /*if (!isConnected()) {
-            start(mContext);
-        }*/
 
-        getRtmUrlForConnectAnonymous(sJwtGrant,botInfoModel).subscribeOn(Schedulers.io())
+        getRtmUrlForConnectAnonymous(sJwtGrant, botInfoModel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RestResponse.RTMUrl>() {
+                .subscribe(new Observer<RTMUrl>() {
                     @Override
                     public void onSubscribe(Disposable disposable) {
                         Log.d("HI","on Subscribe");
                     }
                     @Override
-                    public void onNext(RestResponse.RTMUrl rtmUrl) {
+                    public void onNext(RTMUrl rtmUrl) {
+                        try {
+                            connectToSocket(rtmUrl.getUrl(),false);
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onError(Throwable throwable) {
+                        Log.d("HI","on error");
+                        mIsReconnectionAttemptNeeded = true;
+                        reconnectAttempt();
+                    }
+                    @Override
+                    public void onComplete() {
+//                        Log.d("IKIDO","on complete called man");
+                    }
+                });
+
+
+    }
+
+    /**
+     * Method to invoke connection for anonymous
+     *
+     * These keys are generated from bot admin console
+     */
+    public void connectAnonymous(final String sJwtGrant, final String xauth, final BotInfoModel botInfoModel,
+                                 final SocketConnectionListener socketConnectionListener, BotSocketOptions options) {
+        this.socketConnectionListener = socketConnectionListener;
+        this.accessToken = null;
+        this.JWTToken = sJwtGrant;
+        this.xauth = xauth;
+        this.botInfoModel = botInfoModel;
+        this.options = options;
+        //If spiceManager is not started then start it
+        /*if (!isConnected()) {
+            start(mContext);
+        }*/
+
+        getRtmUrlForConnectAnonymous(sJwtGrant, xauth, botInfoModel).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RTMUrl>() {
+                    @Override
+                    public void onSubscribe(Disposable disposable) {
+                        Log.d("HI","on Subscribe");
+                    }
+                    @Override
+                    public void onNext(RTMUrl rtmUrl) {
                         try {
                             connectToSocket(rtmUrl.getUrl(),false);
                         } catch (URISyntaxException e) {
@@ -483,23 +530,23 @@ public final class SocketWrapper{
         }
     }
 
-    private Observable<RestResponse.RTMUrl> getRtmUrlReconnectForAuthenticUser(String accessToken){
+    private Observable<RTMUrl> getRtmUrlReconnectForAuthenticUser(String accessToken){
 
 
-        return Observable.create(new ObservableOnSubscribe<RestResponse.RTMUrl>() {
+        return Observable.create(new ObservableOnSubscribe<RTMUrl>() {
             @Override
-            public void subscribe(ObservableEmitter<RestResponse.RTMUrl> observableEmitter) throws Exception {
+            public void subscribe(ObservableEmitter<RTMUrl> observableEmitter) throws Exception {
                 try {
-                    Call<RestResponse.JWTTokenResponse> jwtTokenResponseCall = BotRestBuilder.getBotRestService().getJWTToken("bearer " + accessToken);
-                    Response<RestResponse.JWTTokenResponse> jwtTokenResponseResponse = jwtTokenResponseCall.execute();
+                    Call<JWTTokenResponse> jwtTokenResponseCall = BotRestBuilder.getBotRestService().getJWTToken("bearer " + accessToken);
+                    Response<JWTTokenResponse> jwtTokenResponseResponse = jwtTokenResponseCall.execute();
                     HashMap<String, Object> hsh = new HashMap<>(1);
                     hsh.put(Constants.KEY_ASSERTION, jwtTokenResponseResponse.body().getJwt());
 
-                    Call<RestResponse.BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
-                    Response<RestResponse.BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
+                    Call<BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
+                    Response<BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
 
-                    Call<RestResponse.RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), optParameterBotInfo,true);
-                    Response<RestResponse.RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
+                    Call<RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), optParameterBotInfo,true);
+                    Response<RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
 
                     /*Call<RestResponse.BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
                     Response<RestResponse.BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
@@ -545,13 +592,13 @@ public final class SocketWrapper{
 
         getRtmUrlReconnectForAuthenticUser(accessToken).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RestResponse.RTMUrl>() {
+                .subscribe(new Observer<RTMUrl>() {
                     @Override
                     public void onSubscribe(Disposable disposable) {
                     }
 
                     @Override
-                    public void onNext(RestResponse.RTMUrl rtmUrl) {
+                    public void onNext(RTMUrl rtmUrl) {
                         try {
                             connectToSocket(rtmUrl.getUrl().concat("&isReconnect=true"), true);
                         } catch (URISyntaxException e) {
@@ -571,26 +618,26 @@ public final class SocketWrapper{
 
     }
 
-    private Observable<RestResponse.RTMUrl> getRtmUrlReconnectForAnonymousUser(){
+    private Observable<RTMUrl> getRtmUrlReconnectForAnonymousUser(){
 
-        return Observable.create(new ObservableOnSubscribe<RestResponse.RTMUrl>() {
+        return Observable.create(new ObservableOnSubscribe<RTMUrl>() {
             @Override
-            public void subscribe(ObservableEmitter<RestResponse.RTMUrl> observableEmitter) throws Exception {
+            public void subscribe(ObservableEmitter<RTMUrl> observableEmitter) throws Exception {
                 try {
                     HashMap<String, Object> hsh = new HashMap<>();
                     hsh.put(Constants.KEY_ASSERTION, JWTToken);
                     hsh.put(Constants.BOT_INFO, botInfoModel);
 
-                    Call<RestResponse.BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
-                    Response<RestResponse.BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
+                    Call<BotAuthorization> botAuthorizationCall = BotRestBuilder.getBotRestService().jwtGrant(hsh);
+                    Response<BotAuthorization> botAuthorizationResponse = botAuthorizationCall.execute();
                     HashMap<String, Object> hsh1 = new HashMap<>();
                     hsh1.put(Constants.BOT_INFO, botInfoModel);
 
                     auth = botAuthorizationResponse.body().getAuthorization().getAccessToken();
                     botUserId = botAuthorizationResponse.body().getUserInfo().getUserId();
 
-                    Call<RestResponse.RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), hsh1,true);
-                    Response<RestResponse.RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
+                    Call<RTMUrl> rtmUrlCall = BotRestBuilder.getBotRestService().getRtmUrl("bearer " + botAuthorizationResponse.body().getAuthorization().getAccessToken(), hsh1,true);
+                    Response<RTMUrl> rtmUrlResponse = rtmUrlCall.execute();
 
                     /*Call<JWTTokenResponse> jwtTokenResponseCall = KaRestBuilder.getKaRestAPI().getJWTToken(Utils.ah(accessToken),new HashMap<String, Object>());
                     Response<JWTTokenResponse> jwtTokenResponse = jwtTokenResponseCall.execute();
@@ -649,13 +696,13 @@ public final class SocketWrapper{
 
         getRtmUrlReconnectForAnonymousUser().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RestResponse.RTMUrl>() {
+                .subscribe(new Observer<RTMUrl>() {
                     @Override
                     public void onSubscribe(Disposable disposable) {
                     }
 
                     @Override
-                    public void onNext(RestResponse.RTMUrl rtmUrl) {
+                    public void onNext(RTMUrl rtmUrl) {
                         try {
                             connectToSocket(rtmUrl.getUrl().concat("&isReconnect=true"),true);
                         } catch (URISyntaxException e) {

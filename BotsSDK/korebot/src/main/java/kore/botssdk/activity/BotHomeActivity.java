@@ -104,19 +104,19 @@ public class BotHomeActivity extends BotAppCompactActivity {
         public void onClick(View v) {
             if (isOnline())
             {
-                if(!StringUtils.isNullOrEmpty(etIdentity.getText().toString()))
-                {
-                    if(StringUtils.isValidEmail(etIdentity.getText().toString()))
-                    {
+//                if(!StringUtils.isNullOrEmpty(etIdentity.getText().toString()))
+//                {
+//                    if(StringUtils.isValidEmail(etIdentity.getText().toString()))
+//                    {
                         SDKConfiguration.Client.identity = UUID.randomUUID().toString();
                         BotSocketConnectionManager.getInstance().startAndInitiateConnectionWithConfig(getApplicationContext(), null);
                         launchBotChatActivity();
-                    }
-                    else
-                        Toast.makeText(BotHomeActivity.this, "Please enter a valid Email.", Toast.LENGTH_SHORT).show();
-                }
-                else
-                    Toast.makeText(BotHomeActivity.this, "Please enter your Email.", Toast.LENGTH_SHORT).show();
+//                    }
+//                    else
+//                        Toast.makeText(BotHomeActivity.this, "Please enter a valid Email.", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                    Toast.makeText(BotHomeActivity.this, "Please enter your Email.", Toast.LENGTH_SHORT).show();
             } else
                 {
                 Toast.makeText(BotHomeActivity.this, "No internet connectivity", Toast.LENGTH_SHORT).show();

@@ -392,12 +392,12 @@ public class ComposeFooterFragment extends Fragment implements ComposeFooterUpda
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (s.length() == 0) {
-                sendButton.setVisibility(View.GONE);
-                rec_audio_img.setVisibility(View.VISIBLE);
+//                sendButton.setVisibility(View.GONE);
+//                rec_audio_img.setVisibility(View.VISIBLE);
             } else if ((sendButton.getVisibility() != View.VISIBLE )
                     || (s.length() > 0 && sendButton.getVisibility() != View.VISIBLE)) {
-                sendButton.setVisibility(View.VISIBLE);
-                rec_audio_img.setVisibility(View.GONE);
+//                sendButton.setVisibility(View.VISIBLE);
+//                rec_audio_img.setVisibility(View.GONE);
             }
         }
 
@@ -431,7 +431,7 @@ public class ComposeFooterFragment extends Fragment implements ComposeFooterUpda
 
                 editTextMessage.setText("");
                 composebarAttachmentAdapter.clearAll();
-                enableOrDisableSendButton(false);
+//                enableOrDisableSendButton(false);
             }
             else if(composebarAttachmentAdapter.getItemCount()>0)
             {
@@ -440,7 +440,7 @@ public class ComposeFooterFragment extends Fragment implements ComposeFooterUpda
                 else
                     sendMessageAttachmentText(getActivity().getResources().getString(R.string.camera)+" "+composebarAttachmentAdapter.getData().get(0).get("fileName"), composebarAttachmentAdapter.getData());
                 composebarAttachmentAdapter.clearAll();
-                enableOrDisableSendButton(false);
+//                enableOrDisableSendButton(false);
             }
 
         }
@@ -450,7 +450,7 @@ public class ComposeFooterFragment extends Fragment implements ComposeFooterUpda
         public void onClick(View v) {
 
                 animateLayoutVisible(mainContentLayout);
-                animateLayoutVisible(newMenuLogo);
+//                animateLayoutVisible(newMenuLogo);
                 animateLayoutGone(defaultFooterLayout);
                 editTextMessage.requestFocus();
                 Utility.showVirtualKeyboard(getActivity(),editTextMessage);
@@ -462,7 +462,7 @@ public class ComposeFooterFragment extends Fragment implements ComposeFooterUpda
         public void onClick(View v) {
             mainContentLayout.setVisibility(View.GONE);
             animateLayoutGone(mainContentLayout);
-            animateLayoutGone(newMenuLogo);
+//            animateLayoutGone(newMenuLogo);
             animateLayoutVisible(defaultFooterLayout);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -494,7 +494,7 @@ public class ComposeFooterFragment extends Fragment implements ComposeFooterUpda
     {
         mainContentLayout.setVisibility(View.GONE);
         animateLayoutGone(mainContentLayout);
-        animateLayoutGone(newMenuLogo);
+//        animateLayoutGone(newMenuLogo);
         animateLayoutVisible(defaultFooterLayout);
     }
 

@@ -7,7 +7,7 @@
     <corners
         android:bottomLeftRadius="28dp"
         android:topLeftRadius="28dp"
-        android:topRightRadius="@dimen/dimen_28dp" />
+        android:bottomRightRadius="28dp"/>
 
     <padding
         android:left="15dp"

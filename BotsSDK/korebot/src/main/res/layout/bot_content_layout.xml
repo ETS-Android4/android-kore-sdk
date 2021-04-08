@@ -21,16 +21,20 @@
             android:text="mashreq"
             android:textColor="@color/black"
             android:textSize="@dimen/dimen_20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <ImageView
+            android:id="@+id/ivBotLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/dimen_15dp"
-            android:background="@mipmap/chase"
-            android:visibility="gone" />
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:layout_marginBottom="@dimen/dimen_17_dp"
+            android:layout_marginRight="@dimen/dimen_12dp"
+            android:background="@drawable/ic_alex_icon"
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/ivThemeSwitcher"
@@ -41,7 +45,29 @@
             android:layout_gravity="right"
             android:layout_marginRight="@dimen/dimen_10dp"
             android:background="@mipmap/ic_more_vert_white_24dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/ivChatExit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:background="@drawable/ic_chat_exit"
             android:visibility="visible" />
+
+        <kore.botssdk.views.CustomTextViewBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_10dp"
+            android:layout_toRightOf="@+id/ivBotLogo"
+            android:layout_centerVertical="true"
+            android:text="@string/alex"
+            android:textColor="@color/txtFontBlack"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -49,12 +75,13 @@
         android:id="@+id/footer_header"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:layout_below="@+id/header_layout"
+        android:layout_above="@+id/rlChatWindow"
         android:layout_gravity="bottom"
         android:background="@color/footerdivider_color"
         android:visibility="visible" />
 
     <RelativeLayout
+        android:id="@+id/rlChatWindow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header_layout">
@@ -75,9 +102,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/chatContentListView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="start"
+                android:layout_gravity="center"
                 android:layout_marginBottom="2dp"
                 android:choiceMode="singleChoice"
                 android:divider="@android:color/transparent"

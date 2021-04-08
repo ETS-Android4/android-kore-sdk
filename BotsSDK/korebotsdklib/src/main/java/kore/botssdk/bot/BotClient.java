@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -82,11 +81,20 @@ public class BotClient {
      */
     public void connectAsAnonymousUser(String jwtToken, String chatBotName, String taskBotId, SocketConnectionListener socketConnectionListener) {
 
-        String uuid = UUID.randomUUID().toString();//"e56dd516-5491-45b2-9ff7-ffcb7d8f2461";
         botInfoModel = new BotInfoModel(chatBotName,taskBotId,customData);
         SocketWrapper.getInstance(mContext).connectAnonymous(jwtToken, botInfoModel,  socketConnectionListener,null);
     }
 
+    /**
+     * Connection for anonymous user
+     *
+     * @param socketConnectionListener
+     */
+    public void connectAsAnonymousUser(String jwtToken, String xauth, String chatBotName, String taskBotId, SocketConnectionListener socketConnectionListener) {
+
+        botInfoModel = new BotInfoModel(chatBotName,taskBotId,customData);
+        SocketWrapper.getInstance(mContext).connectAnonymous(jwtToken, xauth, botInfoModel,  socketConnectionListener,null);
+    }
 
     public void shouldAttemptToReconnect(boolean value){
         SocketWrapper.getInstance(mContext).shouldAttemptToReconnect(value);
@@ -162,7 +170,7 @@ public class BotClient {
                 botPayLoad.setBotInfo(botInfoModel);
             else
             {
-                botInfoModel = new BotInfoModel(SDKConfiguration.Client.bot_name,SDKConfiguration.Client.bot_id,customData);
+                botInfoModel = new BotInfoModel(SDKConfiguration.Client.bot_name, SDKConfiguration.Client.bot_id,customData);
                 botPayLoad.setBotInfo(botInfoModel);
             }
 

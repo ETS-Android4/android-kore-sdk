@@ -64,6 +64,7 @@ import io.socket.client.On;
 import kore.botssdk.R;
 import kore.botssdk.activity.BotChatActivity;
 import kore.botssdk.adapter.ChatAdapter;
+import kore.botssdk.adapter.ChatAdapterMashreq;
 import kore.botssdk.dialogs.CalenderActionSheetFragment;
 import kore.botssdk.dialogs.DateRangeCalendarActionSheetFragment;
 import kore.botssdk.dialogs.OptionsActionSheetFragment;
@@ -106,7 +107,7 @@ import retrofit2.Response;
 public class BotContentFragment extends Fragment implements BotContentFragmentUpdate {
     RelativeLayout rvChatContent, header_layout;
     RecyclerView botsBubblesListView;
-    ChatAdapter botsChatAdapter;
+    ChatAdapterMashreq botsChatAdapter;
     QuickReplyView quickReplyView;
     String LOG_TAG = BotContentFragment.class.getSimpleName();
     private LinearLayout botTypingStatusRl;
@@ -141,6 +142,7 @@ public class BotContentFragment extends Fragment implements BotContentFragmentUp
     private PopupWindow popupWindow;
     private View popUpView, footer_header;
     private TextView tvChaseTitle;
+    private ImageView ivChatExit;
 
     @Nullable
     @Override
@@ -174,16 +176,16 @@ public class BotContentFragment extends Fragment implements BotContentFragmentUp
         tvChaseTitle = view.findViewById(R.id.tvChaseTitle);
         header_layout = view.findViewById(R.id.header_layout);
         footer_header = view.findViewById(R.id.footer_header);
+        ivChatExit = view.findViewById(R.id.ivChatExit);
         headerView.setVisibility(View.GONE);
 //        tvChaseTitle.setText(Html.fromHtml(getActivity().getResources().getString(R.string.app_name)));
-        botsBubblesListView.setItemViewCacheSize(30);
         sharedPreferences = getActivity().getSharedPreferences(BotResponse.THEME_NAME, Context.MODE_PRIVATE);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        swipeRefreshLayout.setEnabled(false);
+//        swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -201,6 +203,13 @@ public class BotContentFragment extends Fragment implements BotContentFragmentUp
             public void onClick(View v)
             {
                 popupWindow.showAtLocation(ivThemeSwitcher, Gravity.TOP|Gravity.RIGHT, 80, 220);
+            }
+        });
+
+        ivChatExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
 
@@ -290,7 +299,7 @@ public class BotContentFragment extends Fragment implements BotContentFragmentUp
     }
 
     private void setupAdapter() {
-        botsChatAdapter = new ChatAdapter(getActivity());
+        botsChatAdapter = new ChatAdapterMashreq(getActivity());
         botsChatAdapter.setComposeFooterInterface(composeFooterInterface);
         botsChatAdapter.setInvokeGenericWebViewInterface(invokeGenericWebViewInterface);
         botsChatAdapter.setActivityContext(getActivity());

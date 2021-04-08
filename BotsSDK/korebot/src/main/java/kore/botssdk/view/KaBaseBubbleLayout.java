@@ -602,25 +602,28 @@ public abstract class KaBaseBubbleLayout extends ViewGroup {
 
     public void fillBubbleLayout(int position,boolean isLastItem, BaseBotMessage baseBotMessage) {
 
-        //    bubbleTextMediaLayout.gravity = isLeftSide() ? Gravity.START : Gravity.END;
+        if(baseBotMessage != null)
+        {
+            //    bubbleTextMediaLayout.gravity = isLeftSide() ? Gravity.START : Gravity.END;
 //        this.dimens = dimens;
-        bubbleTextMediaLayout.gravity = textMediaLayoutGravity;
-        // Customize BubbleSeparation
-        // Customise BubbleTimeLineGrouping Height
-        BUBBLE_GROUPING_TIMELINE = 0;
+            bubbleTextMediaLayout.gravity = textMediaLayoutGravity;
+            // Customize BubbleSeparation
+            // Customise BubbleTimeLineGrouping Height
+            BUBBLE_GROUPING_TIMELINE = 0;
 
-        preCosmeticChanges();
+            preCosmeticChanges();
 
-        ComponentModel componentModel = getComponentModel(baseBotMessage);
-        // Bubble Text Media
-        populateBubbleTextMedia(baseBotMessage, componentModel, isLastItem);
-        timeStampsTextView.setText(DateUtils.getTimeInAmPm(baseBotMessage.getCreatedInMillis()));
-        // Bubble Templates
-        populateForTemplates(position,isLastItem,componentModel,baseBotMessage);
+            ComponentModel componentModel = getComponentModel(baseBotMessage);
+            // Bubble Text Media
+            populateBubbleTextMedia(baseBotMessage, componentModel, isLastItem);
+            timeStampsTextView.setText(DateUtils.getTimeInAmPm(baseBotMessage.getCreatedInMillis()));
+            // Bubble Templates
+            populateForTemplates(position,isLastItem,componentModel,baseBotMessage);
 
-        // timeLineView.setGravity(Gravity.CENTER);
-        timeStampsTextView.setGravity(isLeftSide() ? Gravity.START : Gravity.END);
-        cosmeticChanges(baseBotMessage);
+            // timeLineView.setGravity(Gravity.CENTER);
+            timeStampsTextView.setGravity(isLeftSide() ? Gravity.START : Gravity.END);
+            cosmeticChanges(baseBotMessage);
+        }
     }
 
     private ComponentModel getComponentModel(BaseBotMessage baseBotMessage) {
