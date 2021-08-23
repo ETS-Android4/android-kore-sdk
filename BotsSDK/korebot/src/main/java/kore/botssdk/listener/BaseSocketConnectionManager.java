@@ -2,6 +2,7 @@ package kore.botssdk.listener;
 
 import android.content.Context;
 
+
 import kore.botssdk.models.JWTTokenResponse;
 import kore.botssdk.models.TokenResponseModel;
 import kore.botssdk.models.UserNameModel;
@@ -12,7 +13,7 @@ import kore.botssdk.websocket.SocketConnectionListener;
  * Created by Ramachandra Pradeep on 03-Jan-18.
  */
 
-public abstract class BaseSocketConnectionManager implements SocketConnectionListener, TTSUpdate {
+public abstract class BaseSocketConnectionManager implements SocketConnectionListener,TTSUpdate {
 
 
     protected Context mContext;
@@ -58,7 +59,7 @@ public abstract class BaseSocketConnectionManager implements SocketConnectionLis
     public abstract void subscribe();
     public abstract void subscribe(SocketChatListener listener);
     public abstract void unSubscribe();
-    public abstract void startAndInitiateConnectionWithConfig(Context mContext, RestResponse.BotCustomData botCustomData);
+    public abstract void startAndInitiateConnectionWithConfig(Context mContext,RestResponse.BotCustomData botCustomData);
     public abstract void startAndInitiateConnection(Context mContext, String userId, String accessToken, UserNameModel userNameModel, String orgId);
     public abstract void startAndInitiateConnection(Context mContext, RestResponse.BotCustomData botCustomData, String jwtToken, String botName, String streamId);
     public abstract void startAndInitiateConnectionWithConfig(Context mContext,String authorization, String xauth);

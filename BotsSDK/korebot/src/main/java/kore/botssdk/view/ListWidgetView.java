@@ -23,20 +23,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.kore.ai.widgetsdk.activities.FullViewActivity;
-import com.kore.ai.widgetsdk.activities.GenericWebViewActivity;
-import com.kore.ai.widgetsdk.fragments.WidgetActionSheetFragment;
-import com.kore.ai.widgetsdk.utils.BundleConstants;
-import com.kore.ai.widgetsdk.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 import kore.botssdk.R;
+import kore.botssdk.activity.GenericWebViewActivity;
 import kore.botssdk.adapter.ListWidgetAdapter;
 import kore.botssdk.dialogs.ListActionSheetFragment;
 import kore.botssdk.dialogs.ListMoreActionSheetFragment;
 import kore.botssdk.dialogs.ListWidgetActionSheetFragment;
+import kore.botssdk.dialogs.WidgetActionSheetFragment;
 import kore.botssdk.event.KoreEventCenter;
 import kore.botssdk.events.EntityEditEvent;
 import kore.botssdk.listener.ComposeFooterInterface;
@@ -228,7 +225,7 @@ public class ListWidgetView extends LinearLayout {
                         btnTitle = model.getHeaderOptions().getButton().getTitle();
                     else
                         btnTitle = model.getHeaderOptions().getText();
-                    if(!com.kore.ai.widgetsdk.utils.StringUtils.isNullOrEmpty(btnTitle))
+                    if(!StringUtils.isNullOrEmpty(btnTitle))
                         tvButton.setText(btnTitle);
                     else
                         tvButtonParent.setVisibility(GONE);
@@ -295,7 +292,7 @@ public class ListWidgetView extends LinearLayout {
                             if(model.getHeaderOptions().getUrl().getLink() != null) {
                                 Intent intent = new Intent(getContext(), GenericWebViewActivity.class);
                                 intent.putExtra("url", model.getHeaderOptions().getUrl().getLink());
-                                intent.putExtra("header", getContext().getResources().getString(com.kora.ai.widgetsdk.R.string.app_name));
+                                intent.putExtra("header", getContext().getResources().getString(R.string.app_name));
                                 getContext().startActivity(intent);
                             }
                         }

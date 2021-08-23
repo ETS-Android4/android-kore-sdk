@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -220,7 +221,7 @@ public abstract class KaBaseBubbleLayout extends ViewGroup {
             BUBBLE_CONTENT_TOP_MARGIN = 0;
             BUBBLE_CONTENT_RIGHT_MARGIN = (int) dp14;
             BUBBLE_CONTENT_BOTTOM_MARGIN = (int)(BubbleUI ?  (8 * dp1) : 21 * dp1);
-            BUBBLE_CONTENT_RIGHT_LIST_MARGIN = (int) (dp1 * 40);
+            BUBBLE_CONTENT_RIGHT_LIST_MARGIN = (int) (dp1 * 10);
             senderImageRadius = (int) (dp1 * 17); // Change this value if sender image width and height is changed
             bubbleCornerRadius = (int) dp15;
             float arrow_factor = 1f;//(float) (1 / Math.sqrt(3));
@@ -614,6 +615,17 @@ public abstract class KaBaseBubbleLayout extends ViewGroup {
             preCosmeticChanges();
 
             ComponentModel componentModel = getComponentModel(baseBotMessage);
+
+            if(componentModel != null && componentModel.getPayload() != null &&
+                    componentModel.getPayload().getPayload() != null)
+            {
+                if(componentModel.getPayload().getPayload().getTemplate_type().equalsIgnoreCase(BotResponse.TEMPLATE_TYPE_WELCOME_QUICK_REPLIES)
+                        || componentModel.getPayload().getPayload().getTemplate_type().equalsIgnoreCase(BotResponse.TEMPLATE_TYPE_BUTTON))
+                {
+                    componentModel.getPayload().getPayload().setTemplate_type(BotResponse.TEMPLATE_TYPE_QUICK_REPLIES);
+                }
+            }
+
             // Bubble Text Media
             populateBubbleTextMedia(baseBotMessage, componentModel, isLastItem);
             timeStampsTextView.setText(DateUtils.getTimeInAmPm(baseBotMessage.getCreatedInMillis()));
@@ -638,7 +650,7 @@ public abstract class KaBaseBubbleLayout extends ViewGroup {
         setDoDrawBubbleBackground(false);
         determineTextColor();
         textViewCosmeticChanges();
-        timeStampsTextView.setVisibility(GONE);
+        timeStampsTextView.setVisibility(VISIBLE);
     }
 
     /**

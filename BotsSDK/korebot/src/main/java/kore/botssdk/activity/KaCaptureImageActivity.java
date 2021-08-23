@@ -851,7 +851,6 @@ public class KaCaptureImageActivity extends KaAppCompatActivity implements KoreM
 
         } catch (Exception ee) {
             ee.printStackTrace();
-            Log.e(LOG_TAG, "Error while create Image Thumbnail" + ee);
         } finally {
             if (scaledBitmap != null) {
                 scaledBitmap.recycle();

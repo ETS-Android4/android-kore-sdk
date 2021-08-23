@@ -63,7 +63,7 @@ public class TextMediaLayout extends ViewGroup {
     private Context mContext;
     //    final String TEXT_COLOR = "#000000";
     private int linkTextColor;
-    private Typeface medium, regular;
+    private Typeface regular;
     private GradientDrawable rightDrawable, leftDrawable;
     private int transparency;
     private SharedPreferences sharedPreferences;
@@ -93,7 +93,7 @@ public class TextMediaLayout extends ViewGroup {
     }
 
     private void init() {
-        medium = KaFontUtils.getCustomTypeface("medium",mContext);
+//        medium = KaFontUtils.getCustomTypeface("medium",mContext);
         regular = KaFontUtils.getCustomTypeface("regular",mContext);
         if (!isInEditMode()) {
             dp1 = AppControl.getInstance().getDimensionUtil().dp1;
@@ -357,7 +357,7 @@ public class TextMediaLayout extends ViewGroup {
     public void setGravityAndTypeFace(){
         if (gravity == BubbleConstants.GRAVITY_LEFT) {
             //   botContentTextView.setGravity(Gravity.START);
-            botContentTextView.setTypeface(medium);
+            botContentTextView.setTypeface(regular);
             botContentTextView.setBackground(leftDrawable);
         } else {
             // botContentTextView.setGravity(Gravity.END);

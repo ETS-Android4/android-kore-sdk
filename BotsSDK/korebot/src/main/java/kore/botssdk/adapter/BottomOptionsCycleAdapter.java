@@ -20,8 +20,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.kore.ai.widgetsdk.utils.AppUtils;
-
 import java.util.List;
 
 import kore.botssdk.R;
@@ -47,7 +45,6 @@ public class BottomOptionsCycleAdapter extends RecyclerView.Adapter<BottomOption
     private InvokeGenericWebViewInterface invokeGenericWebViewInterface;
     private BottomSheetDialog bottomSheetDialog;
     private Context context;
-    private SharedPreferences sharedPreferences;
     private float dp1;
 
     // RecyclerView recyclerView;
@@ -59,7 +56,6 @@ public class BottomOptionsCycleAdapter extends RecyclerView.Adapter<BottomOption
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem= layoutInflater.inflate(R.layout.bottom_options_item, parent, false);
-        sharedPreferences = parent.getContext().getSharedPreferences(BotResponse.THEME_NAME, Context.MODE_PRIVATE);
         dp1 = Utility.convertDpToPixel(context, 1);
         ViewHolder viewHolder = new ViewHolder(listItem);
         return viewHolder;
@@ -69,15 +65,6 @@ public class BottomOptionsCycleAdapter extends RecyclerView.Adapter<BottomOption
     public void onBindViewHolder(ViewHolder holder, int position) {
         BotOptionModel botListModel = model.get(position);
         holder.bottom_option_image.setVisibility(View.GONE);
-
-        if(sharedPreferences != null)
-        {
-            GradientDrawable rightDrawable = (GradientDrawable) context.getResources().getDrawable(R.drawable.rounded_rect_feedback);
-            rightDrawable.setColor(Color.parseColor(sharedPreferences.getString(BotResponse.BUTTON_ACTIVE_BG_COLOR, "#ffffff")));
-            rightDrawable.setStroke((int)(1 * dp1), Color.parseColor("#000000"));
-            holder.bot_list_item_root.setBackground(rightDrawable);
-            holder.bottom_option_name.setTextColor(Color.parseColor("#000000"));
-        }
 
         if(!StringUtils.isNullOrEmpty(botListModel.getIcon()))
         {

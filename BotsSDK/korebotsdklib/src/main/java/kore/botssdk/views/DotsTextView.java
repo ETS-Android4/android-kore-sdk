@@ -9,6 +9,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableString;
@@ -16,10 +17,12 @@ import android.text.Spanned;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 import kore.korebotsdklib.R;
 
 
-public class DotsTextView extends TextView {
+public class DotsTextView extends AppCompatTextView {
 
     private JumpingSpan dotOne;
     private JumpingSpan dotTwo;
@@ -33,7 +36,6 @@ public class DotsTextView extends TextView {
     private boolean isHide;
     private int period;
     private long startTime;
-
 
     private boolean lockDotOne;
     private boolean lockDotTwo;
@@ -83,6 +85,7 @@ public class DotsTextView extends TextView {
         spannable.setSpan(dotTwo, 1, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(dotThree, 2, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         setText(spannable, BufferType.SPANNABLE);
+        setTextSize(40);
 
 
         textWidth = getPaint().measureText(".", 0, 1);

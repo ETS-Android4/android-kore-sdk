@@ -49,8 +49,8 @@ public class QuickRepliesAdapter extends RecyclerView.Adapter<QuickReplyViewHold
         sharedPreferences = context.getSharedPreferences(BotResponse.THEME_NAME, Context.MODE_PRIVATE);
 
         quickWidgetColor = SDKConfiguration.BubbleColors.quickReplyColor;
-        quickReplyFontColor = SDKConfiguration.BubbleColors.quickReplyTextColor;
-        fillColor = SDKConfiguration.BubbleColors.quickReplyColor;
+        quickReplyFontColor = SDKConfiguration.BubbleColors.quickReplyColor;
+        fillColor = SDKConfiguration.BubbleColors.quickReplyTextColor;
         dp1= (int)AppControl.getInstance(context).getDimensionUtil().dp1;
 
         fillColor = sharedPreferences.getString(BotResponse.BUTTON_ACTIVE_BG_COLOR, fillColor);
@@ -66,7 +66,7 @@ public class QuickRepliesAdapter extends RecyclerView.Adapter<QuickReplyViewHold
         gradientDrawable.setStroke(2 * dp1, Color.parseColor(quickWidgetColor));
         gradientDrawable.setColor(Color.parseColor(fillColor));
         QuickReplyViewHolder viewHolder = new QuickReplyViewHolder(convertView);
-        viewHolder.getQuickReplyTitle().setTextColor(Color.parseColor(quickReplyFontColor));
+        viewHolder.getQuickReplyTitle().setTextColor(Color.parseColor(quickWidgetColor));
         return viewHolder;
     }
 

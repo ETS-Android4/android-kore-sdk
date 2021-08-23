@@ -2,6 +2,7 @@ package kore.botssdk.models;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -321,6 +322,7 @@ public class PayloadInner {
     private ArrayList<BotTableDataModel> tableDataModel = null;
 
     private ArrayList<BotButtonModel> buttons;
+
     private ArrayList<QuickReplyTemplate> quick_replies;
     private ArrayList<FormActionTemplate> form_actions;
     private ArrayList<ContactInfoModel> contactInfoModels;
@@ -589,7 +591,13 @@ public class PayloadInner {
     }
 
     public ArrayList<QuickReplyTemplate> getQuick_replies() {
-        return quick_replies;
+
+        if(quick_replies != null)
+            return quick_replies;
+        else if(convertButtonToQuickReplies(getButtons()) != null)
+            return convertButtonToQuickReplies(getButtons());
+        else
+            return null;
     }
 
     public ArrayList<BotCarouselModel> getCarouselElements() {
@@ -778,6 +786,10 @@ public class PayloadInner {
                         }.getType();
                         dropDownElementsModels = gson.fromJson(elementsAsString, listType);
                     }
+                    else if(BotResponse.TEMPLATE_TYPE_BUTTON.equals(template_type))
+                    {
+                        quick_replies = convertButtonToQuickReplies(buttons);
+                    }
                 }else{
                     //Special case where we are getting multiple types of template responses in a single template(knowledge retrieval or universal search)
                     Type listType = new TypeToken<ArrayList<KoraUniversalSearchModel>>(){}.getType();
@@ -862,6 +874,25 @@ public class PayloadInner {
 
         }
         return buttonTemplates;
+    }
+
+    public ArrayList<QuickReplyTemplate> convertButtonToQuickReplies(ArrayList<BotButtonModel> buttons)
+    {
+        ArrayList<QuickReplyTemplate> quickReplyTemplates = new ArrayList<>();
+
+        if (buttons != null && buttons.size() > 0) {
+            quickReplyTemplates = new ArrayList<>(buttons.size());
+            for (BotButtonModel template : buttons)
+            {
+                QuickReplyTemplate quickReplyTemplate = new QuickReplyTemplate();
+                quickReplyTemplate.setTitle(template.getTitle());
+                quickReplyTemplate.setPayload(template.getPayload());
+                quickReplyTemplate.setContent_type(template.getType());
+                quickReplyTemplates.add(quickReplyTemplate);
+            }
+
+        }
+        return quickReplyTemplates;
     }
 
     public ArrayList<String> getHeaders() {

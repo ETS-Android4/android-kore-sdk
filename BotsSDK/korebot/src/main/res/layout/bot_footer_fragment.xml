@@ -102,7 +102,7 @@
                         android:paddingRight="5dp"
                         android:paddingBottom="10dp"
                         android:src="@drawable/widget_menu"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <LinearLayout
                         android:id="@+id/loadingTasks"
@@ -172,7 +172,7 @@
                             android:layout_marginLeft="@dimen/dimen_5dp"
                             android:background="@null"
                             android:gravity="center_vertical|start"
-                            android:hint="Message..."
+                            android:hint="@string/typeyourmessagehere"
                             android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
                             android:maxHeight="68dp"
                             android:minHeight="26dp"
@@ -222,7 +222,7 @@
                         android:layout_marginRight="@dimen/dimen_15dp"
                         android:alpha="0.70"
                         android:padding="5dp"
-                        android:src="@drawable/ic_speaker_mashreq"
+                        android:src="@drawable/ic_microphone_orange"
                         android:visibility="visible" />
 
                     <ImageView

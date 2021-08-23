@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 
 import io.reactivex.Observer;
@@ -18,6 +19,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kore.botssdk.BotDb.BotDataPersister;
+import kore.botssdk.activity.BotChatActivity;
 import kore.botssdk.bot.BotClient;
 import kore.botssdk.event.KoreEventCenter;
 import kore.botssdk.events.AuthTokenUpdateEvent;
@@ -25,11 +27,14 @@ import kore.botssdk.events.NetworkEvents;
 import kore.botssdk.events.SocketDataTransferModel;
 import kore.botssdk.models.BotInfoModel;
 import kore.botssdk.models.BotRequest;
+import kore.botssdk.models.BrandingNewModel;
 import kore.botssdk.models.JWTTokenResponse;
 import kore.botssdk.models.TokenResponseModel;
-import kore.botssdk.models.UserNameModel;
 import kore.botssdk.net.RestAPIHelper;
 import kore.botssdk.net.RestBuilder;
+import kore.botssdk.models.UserNameModel;
+import kore.botssdk.net.BotJWTRestAPI;
+import kore.botssdk.net.BotJWTRestBuilder;
 import kore.botssdk.net.RestResponse;
 import kore.botssdk.net.SDKConfiguration;
 import kore.botssdk.utils.BundleConstants;
@@ -37,6 +42,7 @@ import kore.botssdk.utils.DateUtils;
 import kore.botssdk.utils.NetworkUtility;
 import kore.botssdk.utils.TTSSynthesizer;
 import kore.botssdk.utils.Utils;
+import kore.botssdk.websocket.SocketWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -155,7 +161,7 @@ public class BotSocketConnectionManager extends BaseSocketConnectionManager {
 
     private void makeJwtCallWithConfig(final boolean isRefresh) {
         try{
-            String jwt = botClient.generateJWT(SDKConfiguration.Client.identity, SDKConfiguration.Client.client_secret, SDKConfiguration.Client.client_id, SDKConfiguration.Server.IS_ANONYMOUS_USER);
+            String jwt = botClient.generateJWT(SDKConfiguration.Client.identity,SDKConfiguration.Client.client_secret,SDKConfiguration.Client.client_id,SDKConfiguration.Server.IS_ANONYMOUS_USER);
             botName = SDKConfiguration.Client.bot_name;
             streamId = SDKConfiguration.Client.bot_id;
             if (!isRefresh) {
@@ -341,7 +347,7 @@ public class BotSocketConnectionManager extends BaseSocketConnectionManager {
     }
 
     @Override
-    public void startAndInitiateConnectionWithAuthToken(Context mContext, String userId, String accessToken, RestResponse.BotCustomData botCustomData) {
+    public void startAndInitiateConnectionWithAuthToken(Context mContext, String userId, String accessToken,RestResponse.BotCustomData botCustomData) {
         if (connection_state == null || connection_state == DISCONNECTED) {
             this.mContext = mContext;
             this.userId = userId;
@@ -363,7 +369,7 @@ public class BotSocketConnectionManager extends BaseSocketConnectionManager {
     }
 
     @Override
-    public void startAndInitiateConnectionWithConfig(Context mContext, RestResponse.BotCustomData botCustomData1) {
+    public void startAndInitiateConnectionWithConfig(Context mContext,RestResponse.BotCustomData botCustomData1) {
         this.botCustomData = botCustomData1;
         if (connection_state == null || connection_state == DISCONNECTED) {
             this.mContext = mContext;
@@ -458,9 +464,9 @@ public class BotSocketConnectionManager extends BaseSocketConnectionManager {
         }
         else
         {
-            makeJwtCallWithConfig(false);
+//            makeJwtCallWithConfig(false);
 //            makeTokenCallForJwt(false);
-//            makeJwtCallWithConfigXAuth(false);
+            makeJwtCallWithConfigXAuth(false);
         }
     }
 

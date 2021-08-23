@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import kore.botssdk.models.BotButtonModel;
 import kore.botssdk.models.CalEventsTemplateModel.Duration;

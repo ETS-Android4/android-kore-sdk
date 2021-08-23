@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
-import com.kore.ai.widgetsdk.listeners.WidgetComposeFooterInterface;
 import com.squareup.picasso.Picasso;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -139,7 +138,6 @@ public class ListWidgetAdapter extends RecyclerView.Adapter implements RecyclerV
     Drawable errorIcon;
     String trigger;
     private boolean isLoginNeeded;
-    private WidgetComposeFooterInterface widgetComposeFooterInterface;
 
     public ListWidgetAdapter(Context mContext, String type, String trigger) {
         this.mContext = mContext;

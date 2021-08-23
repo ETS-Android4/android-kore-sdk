@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -170,7 +171,7 @@ public class BotClient {
                 botPayLoad.setBotInfo(botInfoModel);
             else
             {
-                botInfoModel = new BotInfoModel(SDKConfiguration.Client.bot_name, SDKConfiguration.Client.bot_id,customData);
+                botInfoModel = new BotInfoModel(SDKConfiguration.Client.bot_name,SDKConfiguration.Client.bot_id,customData);
                 botPayLoad.setBotInfo(botInfoModel);
             }
 

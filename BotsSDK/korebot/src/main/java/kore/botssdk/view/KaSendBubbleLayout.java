@@ -132,6 +132,7 @@ public class KaSendBubbleLayout extends KaBaseBubbleLayout {
         int top = getPaddingTop()  + BUBBLE_SEPARATION_DISTANCE, left;
         int containerWidth = getMeasuredWidth();
 
+        LayoutUtils.layoutChild(timeStampsTextView, containerWidth - (timeStampsTextView.getMeasuredWidth() + bubbleTextMediaLayouMarginRight), top+bubbleTextMediaLayouMarginTop);
 
         /*
          * For TextMedia Layout
@@ -140,12 +141,8 @@ public class KaSendBubbleLayout extends KaBaseBubbleLayout {
         left = (int)(containerWidth - (14 * dp1 + bubbleTextMediaLayout.getMeasuredWidth()));
         top += bubbleTextMediaLayouMarginTop+BUBBLE_TOP_BORDER;
 
-        LayoutUtils.layoutChild(bubbleTextMediaLayout, left, top);
+        LayoutUtils.layoutChild(bubbleTextMediaLayout, left, timeStampsTextView.getMeasuredHeight());
 
-
-        left = containerWidth - (timeStampsTextView.getMeasuredWidth()+bubbleTextMediaLayouMarginRight);
-        top = bubbleTextMediaLayout.getBottom();
-        LayoutUtils.layoutChild(timeStampsTextView, left, top);
         initializeBubbleDimensionalParametersPhase2(); //Initialize paramters, now that its layed out...
     }
 }

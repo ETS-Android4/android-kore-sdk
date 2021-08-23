@@ -73,7 +73,7 @@ public class QuickRepliesTemplateAdapter extends RecyclerView.Adapter<QuickReply
         gradientDrawable.setStroke(2 * dp1, Color.parseColor(quickWidgetColor));
         gradientDrawable.setColor(Color.parseColor(fillColor));
         QuickReplyViewHolder viewHolder = new QuickReplyViewHolder(convertView);
-        viewHolder.getQuickReplyTitle().setTextColor(Color.parseColor(quickReplyFontColor));
+        viewHolder.getQuickReplyTitle().setTextColor(Color.parseColor(quickWidgetColor));
         return viewHolder;
     }
 

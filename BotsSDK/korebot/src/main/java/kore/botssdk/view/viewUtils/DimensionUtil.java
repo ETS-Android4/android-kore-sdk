@@ -14,7 +14,7 @@ public class DimensionUtil {
     Context context;
     public static float dp1;
     public float screenHeight = 0;
-    public float screenWidth = 0;
+    public static float screenWidth = 0;
     public float density;
 
     public DimensionUtil(Context context) {

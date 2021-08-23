@@ -195,59 +195,43 @@ public class FeedbackActionSheetFragment extends BottomSheetDialogFragment imple
     }
 
     private void resetAll() {
-        icon_1.setImageResource(com.kora.ai.widgetsdk.R.drawable.feedback_icon_1);
-        icon_2.setImageResource(com.kora.ai.widgetsdk.R.drawable.feedback_icon_2);
-        icon_3.setImageResource(com.kora.ai.widgetsdk.R.drawable.feedback_icon_3);
-        icon_4.setImageResource(com.kora.ai.widgetsdk.R.drawable.feedback_icon_4);
-        icon_5.setImageResource(com.kora.ai.widgetsdk.R.drawable.feedback_icon_5);
+        icon_1.setImageResource(R.drawable.feedback_icon_1);
+        icon_2.setImageResource(R.drawable.feedback_icon_2);
+        icon_3.setImageResource(R.drawable.feedback_icon_3);
+        icon_4.setImageResource(R.drawable.feedback_icon_4);
+        icon_5.setImageResource(R.drawable.feedback_icon_5);
     }
 
     @Override
     public void onClick(View v)
     {
-        switch (v.getId())
-        {
-            case R.id.icon_1:
-            {
-                resetAll();
-                //  icon_4.setImageResource(R.drawable.feedbac_ic_emo_4);
-                loademojis(0);
-                position = 1;
-                updateData();
-            }
-            break;
-            case R.id.icon_2:
-            {
-                resetAll();
-                loademojis(1);
-                position = 2;
-                updateData();
-            }
-            break;
-            case R.id.icon_3:
-            {
-                resetAll();
-                loademojis(2);
-                position = 3;
-                updateData();
-            }
-            break;
-            case R.id.icon_4:
-            {
-                resetAll();
-                loademojis(3);
-                position = 4;
-                updateData();
-            }
-            break;
-            case R.id.icon_5:
-            {
-                resetAll();
-                loademojis(4);
-                position = 5;
-                updateData();
-            }
-            break;
+        int id = v.getId();
+        if (id == R.id.icon_1) {
+            resetAll();
+            //  icon_4.setImageResource(R.drawable.feedbac_ic_emo_4);
+            loademojis(0);
+            position = 1;
+            updateData();
+        } else if (id == R.id.icon_2) {
+            resetAll();
+            loademojis(1);
+            position = 2;
+            updateData();
+        } else if (id == R.id.icon_3) {
+            resetAll();
+            loademojis(2);
+            position = 3;
+            updateData();
+        } else if (id == R.id.icon_4) {
+            resetAll();
+            loademojis(3);
+            position = 4;
+            updateData();
+        } else if (id == R.id.icon_5) {
+            resetAll();
+            loademojis(4);
+            position = 5;
+            updateData();
         }
     }
 

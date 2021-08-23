@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import kore.botssdk.R;
 import kore.botssdk.listener.ComposeFooterInterface;
 import kore.botssdk.listener.InvokeGenericWebViewInterface;
+import kore.botssdk.listener.ListClickableListner;
 import kore.botssdk.models.BotListModel;
 import kore.botssdk.models.BotResponse;
 import kore.botssdk.utils.BundleConstants;
@@ -36,6 +37,7 @@ public class BotListViewTemplateAdapter extends BaseAdapter {
     private ArrayList<BotListModel> botListModelArrayList = new ArrayList<>();
     private ComposeFooterInterface composeFooterInterface;
     private InvokeGenericWebViewInterface invokeGenericWebViewInterface;
+    private ListClickableListner listClickableListner;
     private LayoutInflater ownLayoutInflator;
     private Context context;
     private RoundedCornersTransform roundedCornersTransform;
@@ -43,6 +45,7 @@ public class BotListViewTemplateAdapter extends BaseAdapter {
     private GradientDrawable bgDrawable;
     private int count = 0;
     private SharedPreferences sharedPreferences;
+    private boolean isClickable = true;
 
     public BotListViewTemplateAdapter(Context context, ListView parentListView, int count) {
         this.ownLayoutInflator = LayoutInflater.from(context);
@@ -66,7 +69,8 @@ public class BotListViewTemplateAdapter extends BaseAdapter {
     public BotListModel getItem(int position) {
         if (position == AdapterView.INVALID_POSITION) {
             return null;
-        } else {
+        } else
+        {
             return botListModelArrayList.get(position);
         }
     }
@@ -139,29 +143,6 @@ public class BotListViewTemplateAdapter extends BaseAdapter {
             if(sharedPreferences != null)
                 holder.botListItemSubtitle.setTextColor(Color.parseColor(sharedPreferences.getString(BotResponse.BUTTON_INACTIVE_TXT_COLOR, "#505968")));
         }
-//        if (botListModel.getButtons() == null || botListModel.getButtons().isEmpty()) {
-//            holder.botListItemButton.setVisibility(View.GONE);
-//        } else {
-//            holder.botListItemButton.setVisibility(View.VISIBLE);
-//            holder.botListItemButton.setText(botListModel.getButtons().get(0).getTitle());
-//            holder.botListItemButton.setTag(botListModel.getButtons().get(0));
-//
-//            holder.botListItemButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (composeFooterInterface != null && invokeGenericWebViewInterface != null) {
-//                        BotListElementButton botListElementButton = (BotListElementButton) v.getTag();
-//                        if (BundleConstants.BUTTON_TYPE_WEB_URL.equalsIgnoreCase(botListElementButton.getType())) {
-//                            invokeGenericWebViewInterface.invokeGenericWebView(botListElementButton.getUrl());
-//                        } else if (BundleConstants.BUTTON_TYPE_POSTBACK.equalsIgnoreCase(botListElementButton.getType())) {
-//                            String listElementButtonPayload = botListElementButton.getPayload();
-//                            String listElementButtonTitle = botListElementButton.getTitle();
-//                            composeFooterInterface.onSendClick(listElementButtonTitle, listElementButtonPayload,false);
-//                        }
-//                    }
-//                }
-//            });
-//        }
 
         holder.botListItemRoot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,16 +150,21 @@ public class BotListViewTemplateAdapter extends BaseAdapter {
                 if (composeFooterInterface != null && invokeGenericWebViewInterface != null) {
                     int position = parentListView.getPositionForView(v);
                     BotListModel _botListModel = getItem(position);
-                    if (_botListModel != null && _botListModel.getDefault_action() != null) {
+                    if (_botListModel != null && _botListModel.getDefault_action() != null && _botListModel.getDefault_action().getType() != null && !isClickable) {
                         if (BundleConstants.BUTTON_TYPE_WEB_URL.equalsIgnoreCase(_botListModel.getDefault_action().getType())) {
                             invokeGenericWebViewInterface.invokeGenericWebView(_botListModel.getDefault_action().getUrl());
                         } else if (BundleConstants.BUTTON_TYPE_POSTBACK.equalsIgnoreCase(_botListModel.getDefault_action().getType())) {
-
-                            if(!StringUtils.isNullOrEmpty(_botListModel.getDefault_action().getTitle()))
-                                composeFooterInterface.onSendClick(_botListModel.getDefault_action().getTitle(),false);
+                            if(!StringUtils.isNullOrEmpty(_botListModel.getDefault_action().getPayload()) && !StringUtils.isNullOrEmpty(_botListModel.getDefault_action().getTitle()))
+                                composeFooterInterface.onSendClick(_botListModel.getDefault_action().getTitle(), _botListModel.getDefault_action().getPayload(),false);
                             else if(!StringUtils.isNullOrEmpty(_botListModel.getDefault_action().getPayload()))
                                 composeFooterInterface.onSendClick(_botListModel.getDefault_action().getPayload(),false);
+                            else if(!StringUtils.isNullOrEmpty(_botListModel.getDefault_action().getTitle()))
+                                composeFooterInterface.onSendClick(_botListModel.getDefault_action().getTitle(),false);
+
                         }
+
+                        if(listClickableListner != null)
+                            listClickableListner.listClicked(true);
                     }
                 }
             }
@@ -199,6 +185,10 @@ public class BotListViewTemplateAdapter extends BaseAdapter {
         this.invokeGenericWebViewInterface = invokeGenericWebViewInterface;
     }
 
+    public void setListClickableInterface(ListClickableListner listClickableInterface) {
+        this.listClickableListner = listClickableInterface;
+    }
+
     private void initializeViewHolder(View view) {
         ViewHolder holder = new ViewHolder();
 
@@ -209,6 +199,11 @@ public class BotListViewTemplateAdapter extends BaseAdapter {
         holder.bot_list_item_cost = (TextView) view.findViewById(R.id.bot_list_item_cost);
 
         view.setTag(holder);
+    }
+
+    public void setListClickable(boolean b)
+    {
+        this.isClickable = b;
     }
 
     private static class ViewHolder {

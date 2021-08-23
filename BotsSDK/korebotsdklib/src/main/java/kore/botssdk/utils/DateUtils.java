@@ -43,6 +43,7 @@ public class DateUtils {
     public static final Format calendar_list_format = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.ENGLISH);
     public static final Format calendar_list_format_2 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
     public static final SimpleDateFormat dateWeekDayTime = new SimpleDateFormat("EE, MMM dd yyyy 'at' hh:mm a", Locale.ENGLISH);
+    public static final SimpleDateFormat mashreq_chat_dateTime = new SimpleDateFormat("EE, MMM dd yyyy 'at' hh:mm:ss a", Locale.ENGLISH);
 
     public static final SimpleDateFormat dateWeekDayTime2 = new SimpleDateFormat("MMM dd yyyy 'at' hh:mm a", Locale.ENGLISH);
     public static final SimpleDateFormat dateWeekDayTime3 = new SimpleDateFormat("MMM dd 'at' hh:mm a", Locale.ENGLISH);
@@ -93,7 +94,7 @@ public class DateUtils {
     }
 
     public static String getTimeInAmPm(long dateInMs) {
-        return dateTime.format(new Date(dateInMs));
+        return mashreq_chat_dateTime.format(new Date(dateInMs));
     }
 
     /**

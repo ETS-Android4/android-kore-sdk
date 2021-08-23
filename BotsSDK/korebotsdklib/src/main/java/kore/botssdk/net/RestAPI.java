@@ -51,7 +51,7 @@ public interface RestAPI {
     Call<RestResponse.JWTTokenResponse> getJWTToken(@Header("Authorization") String token);
 
     //Getting jwt grant
-    @POST("/api/oAuth/token/jwtgrant")
+    @POST("oAuth/token/jwtgrant")
     Call<RestResponse.BotAuthorization> jwtGrant(@Body HashMap<String,Object> jwtToken);
 
 //    //Getting jwt grant Anonymous

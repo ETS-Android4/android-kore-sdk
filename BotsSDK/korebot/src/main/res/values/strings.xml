@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"Kore.ai"</string>
+    <string name="app_name">"mashreq"</string>
     <string name="socket_connecting">Connecting</string>
     <string name="socket_connected">Connected</string>
     <string name="socket_disconnected">Disconnected</string>
@@ -94,9 +94,10 @@
     <string name="connect">Connect</string>
     <string name="whatcanbeimproved">What can be Improved ?</string>
     <string name="submit">Submit</string>
-    <string name="show_more">Show More</string>
+    <string name="show_more">Show more</string>
     <string name="about">About</string>
     <string name="alex">Alex</string>
+    <string name="typeyourmessagehere">Type your message here</string>
 
     <string-array name="attachments_strings">
         <item>Take Photo</item>

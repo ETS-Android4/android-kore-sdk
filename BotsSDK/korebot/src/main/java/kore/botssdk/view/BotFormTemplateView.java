@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import kore.botssdk.listener.ComposeFooterInterface;
 import kore.botssdk.listener.InvokeGenericWebViewInterface;
 import kore.botssdk.models.BotFormTemplateModel;
 import kore.botssdk.models.BotResponse;
+import kore.botssdk.models.Button;
 import kore.botssdk.models.PayloadInner;
 import kore.botssdk.utils.KaFontUtils;
 import kore.botssdk.utils.StringUtils;
@@ -127,7 +129,9 @@ public class BotFormTemplateView extends ViewGroup {
             if(payloadInner.getBotFormTemplateModels() != null && payloadInner.getBotFormTemplateModels().size()>0)
                 items.addAll(payloadInner.getBotFormTemplateModels());
 
-            tvform_template_title.setText(payloadInner.getHeading());
+//            tvform_template_title.setText(payloadInner.getHeading());
+            tvform_template_title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
+            tvform_template_title.setText("Your session has expired. Please re-login.");
             botFormTemplateAdapter = new BotFormTemplateAdapter(getContext(), payloadInner.getBotFormTemplateModels());
             botFormTemplateAdapter.setBotFormTemplates(items);
             botFormTemplateAdapter.setEnabled(isEnabled);
@@ -146,7 +150,7 @@ public class BotFormTemplateView extends ViewGroup {
                 if(!StringUtils.isNullOrEmpty(payloadInner.getFieldButton().getTitle()))
                     btfieldButton.setText(payloadInner.getFieldButton().getTitle());
 
-            btfieldButton.setOnClickListener(new OnClickListener() {
+            btfieldButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
@@ -160,6 +164,8 @@ public class BotFormTemplateView extends ViewGroup {
                             EditText et = (EditText) v.findViewById(R.id.edtFormInput);
                             sb.append(et.getText().toString());
                         }
+//                        StringBuffer sb = new StringBuffer();
+//                        sb.append(holder.edtFormInput.getText().toString());
                         composeFooterInterface.onSendClick(getDotMessage(sb.toString()), sb.toString(),false);
                     }
                 }

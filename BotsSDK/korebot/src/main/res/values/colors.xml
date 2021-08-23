@@ -5,8 +5,8 @@
     <color name="bgLightBlue">#9fa8da</color>
 
 <!--    General Theme-->
-    <color name="colorPrimaryKa">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryKa">#FF5E00</color>
+    <color name="colorPrimaryDark">#FF5E00</color>
     <color name="colorPrimary">@color/colorPrimaryKa</color>
     <color name="colorAccent">#D81B60</color>
 
@@ -32,7 +32,7 @@
     <color name="bot_left_bubble_unselected">#CCCCCC</color>
     <color name="bot_right_bubble_selected">#0268de</color>
     <color name="bot_right_bubble_unselected">#0076FF</color>
-    <color name="left_bubble_text_color">#444444</color>
+    <color name="left_bubble_text_color">#FF5E00</color>
     <color name="right_bubble_text_color">#FFFFFF</color>
     <color name="right_footer_divider">#5bafd6</color>
     <color name="right_lastsend_footer_divider">#A3DEFB</color>
@@ -89,7 +89,7 @@
     <!-- Offline mode check -->
     <color name="offline_mode_check_bg_color">#CC96A5A9</color>
     <color name="offline_mode_check_text_color">#FFFFFF</color>
-    <color name="compose_chase_color">#F8F9FC</color>
+    <color name="compose_chase_color">#E5E5E5</color>
     <color name="bot_option_text_color">#01CDEF</color>
     <color name="connectBotBackground">#F7F7F7</color>
     <color name="footerdivider_color">#CACACA</color>
@@ -197,4 +197,5 @@
     <color name="color_38c9e1">#38c9e1</color>
     <color name="color_3E3E51">#3e3e51</color>
     <color name="listview_cost">#008000</color>
+    <color name="txtFontBlack">#000000</color>
 </resources>

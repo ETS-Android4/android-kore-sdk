@@ -15,6 +15,7 @@ public class BotListModel implements Serializable {
     String color;
     BotListDefaultModel default_action;
     ArrayList<BotListElementButton> buttons;
+    boolean isListClicked = false;
 
     public String getTitle() {
         return title;
@@ -54,5 +55,13 @@ public class BotListModel implements Serializable {
     public String getColor()
     {
         return color;
+    }
+
+    public void setListClicked(boolean listClicked) {
+        isListClicked = listClicked;
+    }
+
+    public boolean getListClicked() {
+        return isListClicked;
     }
 }

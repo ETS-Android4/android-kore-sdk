@@ -105,8 +105,6 @@ public class BrandingChangeActivity extends BotAppCompactActivity
                         {
                             if(selected_option_id.equalsIgnoreCase(brandingDependenciesModel.getEntities().get(k).getPropertyValue()))
                             {
-                                Log.e("Color Value", brandingDependenciesModel.getAllowedValues()[0]);
-
                                 if(BotResponse.BUBBLE_LEFT_BG_COLOR.trim().equalsIgnoreCase(brandingWidgetThemeModel.getBrandingwidgetdesktop().getEntities().get(i).getLabel().trim()))
                                 {
 //                                    SDKConfiguration.BubbleColors.setRightBubbleSelected(brandingDependenciesModel.getAllowedValues()[0]);
@@ -304,7 +302,6 @@ public class BrandingChangeActivity extends BotAppCompactActivity
             InputStream is = getResources().openRawResource(R.raw.branding_response);
             Reader reader = new InputStreamReader(is);
             botOptionsModel = gson.fromJson(reader, BrandingWidgetThemeModel.class);
-            Log.e("Options Size", botOptionsModel.getBrandingwidgetdesktop().getEntities().size() + "" );
         }
         catch (Exception e)
         {

@@ -1,5 +1,7 @@
 package kore.botssdk.net;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -22,7 +24,9 @@ public class JwtRestBuilder {
     private JwtRestBuilder(){}
 
     public static RestAPI getBotRestService(){
-        if(serviceBot == null) {
+        if(serviceBot == null)
+        {
+            Log.e("JWT_SERVER_URL", SDKConfiguration.Server.JWT_SERVER_URL);
             serviceBot = new Retrofit.Builder()
                     .baseUrl(SDKConfiguration.Server.JWT_SERVER_URL)
                     .addConverterFactory(createConverter())
